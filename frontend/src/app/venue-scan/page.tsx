@@ -1,11 +1,12 @@
 'use client';
+export const dynamic = 'force-dynamic'
 
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { apiFetch } from '@/lib/api';
 import { QrCode, CheckCircle2, AlertCircle, ArrowLeft, Ticket, Mail, User, Trophy, Award, Sparkles, Send } from 'lucide-react';
 
-export default function VenueScanPage() {
+function VenueScanContent() {
   const searchParams = useSearchParams();
   const initialEventId = searchParams.get('eventId') || '';
   const initialTitle = searchParams.get('title') || 'Supernova Competition';
@@ -41,7 +42,8 @@ export default function VenueScanPage() {
   setError(err.message || 'Venue attendance verification failed');
 } finally {
   setLoading(false);
-}
+  }
+};
 
   return (
     <div className="min-h-screen bg-background text-slate-100 py-10 px-4 flex items-center justify-center relative overflow-hidden font-tech bg-cyber-grid">
@@ -184,5 +186,13 @@ export default function VenueScanPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function VenueScanPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <VenueScanContent />
+    </Suspense>
   );
 }

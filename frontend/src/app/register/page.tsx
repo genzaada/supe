@@ -1,6 +1,7 @@
 'use client';
+export const dynamic = 'force-dynamic';
 
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { apiFetch } from '@/lib/api';
 import { formatCurrency } from '@/lib/utils';
@@ -25,7 +26,7 @@ interface Event {
   customFields?: CustomField[];
 }
 
-export default function RegisterPage() {
+function VenueScanContent() {
   const searchParams = useSearchParams();
   const preselectedSlug = searchParams.get('event');
 
@@ -371,5 +372,12 @@ export default function RegisterPage() {
         </div>
       </div>
     </div>
+  );
+}
+export default function VenueScanPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <VenueScanContent />
+    </Suspense>
   );
 }

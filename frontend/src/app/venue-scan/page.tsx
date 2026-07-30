@@ -38,11 +38,10 @@ export default function VenueScanPage() {
         setSuccess(res.data || { registrationId, email, fullName, competition: initialTitle });
       }
     } catch (err: any) {
-      setError(err.message || 'Venue attendance verification failed');
-    } font-tech finally {
-      setLoading(false);
-    }
-  };
+  setError(err.message || 'Venue attendance verification failed');
+} finally {
+  setLoading(false);
+}
 
   return (
     <div className="min-h-screen bg-background text-slate-100 py-10 px-4 flex items-center justify-center relative overflow-hidden font-tech bg-cyber-grid">

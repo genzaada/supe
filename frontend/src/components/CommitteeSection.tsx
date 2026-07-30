@@ -4,9 +4,10 @@ import React from 'react';
 import { ShieldCheck, UserCheck } from 'lucide-react';
 
 const COMMITTEE_HEADS = [
-  { name: 'Diya Chuphal', role: 'Committee Head' },
-  { name: 'Richa Bagdiya', role: 'Committee Head' },
-  { name: 'Hitesh Phule', role: 'Committee Head' },
+  { name: '', role: 'Committee Head' },
+  { name: '', role: 'Committee Head' },
+  
+
 ];
 
 export default function CommitteeSection() {

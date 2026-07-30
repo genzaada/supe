@@ -9,21 +9,7 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-cyan-500/20 backdrop-blur-2xl bg-slate-950/80">
       {/* Top Status Bar (Techfest style) */}
-      <div className="bg-gradient-to-r from-purple-950/80 via-slate-950 to-cyan-950/80 border-b border-white/5 py-1 px-4 text-[11px] font-mono-cyber text-slate-300 flex items-center justify-between">
-        <div className="flex items-center gap-2 max-w-7xl mx-auto w-full justify-between">
-          <div className="flex items-center gap-2">
-            <span className="inline-block w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
-            <span className="text-cyan-400 font-bold tracking-wider">[STATUS: REGISTRATIONS OPEN]</span>
-            <span className="hidden sm:inline text-slate-500">•</span>
-            <span className="hidden sm:inline text-slate-400">Asia's Premier Student Techfest Architecture</span>
-          </div>
-          <div className="flex items-center gap-4 text-xs">
-            <span className="text-purple-400 font-bold">22-23 AUGUST 2026</span>
-            <span className="hidden md:inline text-slate-500">|</span>
-            <span className="hidden md:inline text-slate-400">Venue: Campus Auditorium & Labs</span>
-          </div>
-        </div>
-      </div>
+      
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
         {/* Techfest-inspired Brand Logo */}
@@ -38,7 +24,7 @@ export default function Navbar() {
               SUPERNOVA <span className="text-cyan-400 font-mono-cyber">2026</span>
             </span>
             <span className="text-[10px] text-cyan-400/80 uppercase font-mono-cyber tracking-widest block mt-0.5">
-              IIT Techfest Paradigm
+              SOET TECHFEST
             </span>
           </div>
         </a>

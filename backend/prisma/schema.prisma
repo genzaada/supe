@@ -1,0 +1,143 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  ADMIN
+  ORGANIZER
+  FINANCE
+}
+
+enum EventStatus {
+  DRAFT
+  PUBLISHED
+  COMPLETED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESSFUL
+  FAILED
+  REFUNDED
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role
+  events    Event[]  @relation("OrganizerEvents")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Event {
+  id              String         @id @default(uuid())
+  title           String
+  slug            String         @unique
+  category        String
+  description     String
+  rules           String[]
+  bannerUrl       String?
+  venue           String
+  eventDate       String
+  reportingTime   String
+  registrationFee Float          @default(0)
+  prizePool       Float          @default(0)
+  status          EventStatus    @default(DRAFT)
+  customFields    Json?          // Configurable custom form questions
+  organizerId     String?
+  organizer       User?          @relation("OrganizerEvents", fields: [organizerId], references: [id])
+  coordinators    Coordinator[]
+  registrations   Registration[]
+  attendances     Attendance[]
+  certificates    Certificate[]
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+}
+
+model Coordinator {
+  id      String  @id @default(uuid())
+  name    String
+  phone   String?
+  email   String?
+  eventId String
+  event   Event   @relation(fields: [eventId], references: [id], onDelete: Cascade)
+}
+
+model Registration {
+  id             String       @id @default(uuid())
+  registrationId String       @unique
+  fullName       String
+  email          String
+  mobileNumber   String
+  college        String
+  city           String
+  customAnswers  Json?
+  eventId        String
+  event          Event        @relation(fields: [eventId], references: [id])
+  payment        Payment?
+  attendance     Attendance?
+  certificate    Certificate?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@unique([email, eventId])
+}
+
+model Payment {
+  id                String        @id @default(uuid())
+  registrationId    String        @unique
+  registration      Registration  @relation(fields: [registrationId], references: [id], onDelete: Cascade)
+  razorpayOrderId   String        @unique
+  razorpayPaymentId String?       @unique
+  razorpaySignature String?
+  amount            Float
+  currency          String        @default("INR")
+  status            PaymentStatus @default(PENDING)
+  failureReason     String?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+}
+
+model Attendance {
+  id             String       @id @default(uuid())
+  registrationId String       @unique
+  registration   Registration @relation(fields: [registrationId], references: [id], onDelete: Cascade)
+  eventId        String
+  event          Event        @relation(fields: [eventId], references: [id])
+  scannedAt      DateTime     @default(now())
+}
+
+model Certificate {
+  id             String       @id @default(uuid())
+  certificateNo String       @unique
+  registrationId String       @unique
+  registration   Registration @relation(fields: [registrationId], references: [id], onDelete: Cascade)
+  eventId        String
+  event          Event        @relation(fields: [eventId], references: [id])
+  pdfUrl         String?
+  issuedAt       DateTime     @default(now())
+}
+
+model CommitteeMember {
+  id       String  @id @default(uuid())
+  name     String
+  role     String
+  photoUrl String?
+}
+
+model Sponsor {
+  id      String  @id @default(uuid())
+  name    String
+  logoUrl String
+  website String?
+  tier    String
+}
